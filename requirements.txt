@@ -1,8 +1,12 @@
-matplotlib
 numpy
 pandas
+matplotlib
+seaborn
+torch
 torcheval
 torchinfo
+torchvision
+tqdm
 jupyterlab
 ipynb
 onnx
