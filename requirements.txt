@@ -1,0 +1,9 @@
+matplotlib
+numpy
+pandas
+torcheval
+torchinfo
+jupyterlab
+ipynb
+onnx
+git+https://github.com/eml-eda/plinio.git@main#egg=plinio
