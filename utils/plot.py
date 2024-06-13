@@ -7,17 +7,21 @@ from itertools import groupby
 from torcheval.metrics import MulticlassConfusionMatrix
 
 # plot learning curves from a history dataframe generated during training
-def plot_learning_curves(history):
+def plot_learning_curves(history, w = 9):
     # fail gracefully if there is no history
-    if history is None:
+    if history is None or len(history) == 0:
         print("Empty history, cannot plot")
         return
 
     fig = plt.figure(figsize=(4, 4))
     ax = fig.add_subplot()
-    ax.plot(history['epoch'], history['loss'], color='green', label='Train')
-    ax.plot(history['epoch'], history['val_loss'],
-            color='orange', label='Val.')
+    epochs = range(len(history))
+    loss = [h['loss'] for h in history]
+    val_loss = [h['val_loss'] for h in history]
+    loss = np.convolve(np.pad(loss, (w-1)//2, mode='edge'), np.ones(w), 'valid') / w
+    val_loss = np.convolve(np.pad(val_loss, (w-1)//2, mode='edge'), np.ones(w), 'valid') / w
+    ax.plot(epochs, loss, color='green', label='Train')
+    ax.plot(epochs, val_loss, color='orange', label='Val.')
     ax.grid(True)
     ax.set_xlabel('Epoch')
     ax.set_ylabel('Loss')
