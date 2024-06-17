@@ -52,7 +52,7 @@ If you are in a remote machine, you may want to run this instead (where any port
 jupyter lab --ip='*' --port=58080 --no-browser
 ```
 
-In this second case, you will see instructions in the terminal that suggest to access the server by opening a URL that looks like this:
+In the local scenario, a new browser window should popup automatically with the Jupyter Lab session. In the remote case, instead, you will see instructions in the terminal that suggest to access the server by opening a URL that looks like this:
 
 ```
 http://localhost:58080/lab?token=<LONG_STRING>
@@ -64,5 +64,18 @@ Simply take that URL and paste it in your browser, replacing `localhost` with th
 
 ### Instructions for Kaggle
 
+To run the notebooks in **Kaggle**, first create an account and associate it with your phone number (required to enable Internet access and GPU usage, max 30h per week). Then, create a new Notebook, and select: `File/Import Notebook`. Drag and drop the ipynb file that you want to run (starting from `I_SuperNet.ipynb` in the upload window.
+
+Lastly in the right pane, under "Session Options", enable Internet by clicking on the toggle. Under "Accelerator", select "GPU P100".
 
 ### Instructions for Google Colab
+
+To run the notebooks in **Google colab**, upload the corresponding `.ipynb` file to your Google Drive, then Right Click on it and select: `Open with/Google Colaboratory`.
+
+
+### Common Notes for Kaggle and Colab 
+
+If you're running on *either* Kaggle or Colab, the notebooks contain extra instructions and commands. Make sure to follow them.
+
+Moreover, beware that each notebook will run in a **separate environment** from the others. Since each of the notebooks uses the outputs from the previous ones, you will have to make sure that these files are accessible "by hand" (uploading them in the respective cloud folders and setting all paths appropriately). See the instructions in the notebooks.
+
