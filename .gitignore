@@ -2,3 +2,5 @@
 utils/__pycache__/
 icl_data/
 tmp/
+oenne_venv/
+experiments/
