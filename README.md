@@ -60,6 +60,11 @@ http://localhost:58080/lab?token=<LONG_STRING>
 
 Simply take that URL and paste it in your browser, replacing `localhost` with the IP or hostname of the remote server. You should now see the Jupyter Lab Interface. Simply open the first notebook `I_SuperNet.ipynb` and follow the instructions.
 
+### Additional instructions for IV_Model_compilation_and_deployment.ipynb
+1. Clone the repository https://github.com/eml-eda/match-model-zoo. 
+N.B Clone at the same level of oenne repository, not inside it.
+
+2. Follow the instructions inside the README.md of that repository to launch the notebook.
 
 
 ### Instructions for Kaggle
