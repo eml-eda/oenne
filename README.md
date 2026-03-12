@@ -67,6 +67,10 @@ N.B Clone at the same level of oenne repository, not inside it.
 2. Follow the instructions inside the README.md of that repository to launch the notebook.
 
 
+### Instructions for VSCode
+
+To run the notebooks in **VSCode**, attach the environment created with venv to the VSCode Runner, by selecting it from the top menu.
+
 ### Instructions for Kaggle
 
 To run the notebooks in **Kaggle**, first create an account and associate it with your phone number (required to enable Internet access and GPU usage, max 30h per week). Then, create a new Notebook, and select: `File/Import Notebook`. Drag and drop the ipynb file that you want to run (starting from `I_SuperNet.ipynb` in the upload window.
