@@ -3,14 +3,15 @@ from match.target.memory_inst import MemoryInst
 from match.target.target import MatchTarget
 from match.transform.layout import MatchLayoutNCHWtoNHWC, MatchLayoutNCHWtoNHWCTVM
 from match.transform.requant import MatchRequantRewriter
-from .pulp_cluster import PulpCluster
+from match.transform.conv_pw_strided import MatchConv2dPWStrided
+from pulp_open.pulp_cluster import PulpCluster
 from tvm import relay
 
 # pulp config
 PULP_CORES = 8
-L1_SCRATCHPAD_KB_SIZE = 32
-L2_SHARED_MEM_KB_SIZE = 512*1024
-L3_FLASH_KB_SIZE = 8*1024*1024
+L1_SCRATCHPAD_KB_SIZE = 38
+L2_SHARED_MEM_KB_SIZE = 512
+L3_FLASH_KB_SIZE = 16*1024
 ASYNC_DMA = False
 
 class PulpOpen(MatchTarget):
@@ -27,9 +28,9 @@ class PulpOpen(MatchTarget):
         self.set_target_host()
         self.set_paths()
         self.set_apis()
-        self.soc_memory_bytes = L2_SHARED_MEM_KB_SIZE
 
     def set_target_host(self):
+        self.static_mem_plan = False
         self.cpu_type = "riscv_cpu"
 
     def set_paths(self):
@@ -53,13 +54,13 @@ class PulpOpen(MatchTarget):
         self.timestamp_to_ms = ""
         self.timestamp_type = "int"
         # initialization and cleaning
-        self.init_funcs = ["pulp_cluster_init"]
+        self.init_funcs = ["pulp_open_init", "pulp_cluster_init"]
         self.clean_funcs = ["pulp_cluster_close"]
         # memory management ones
         self.alloc_fn = "malloc_wrapper"
         self.free_fn = "free_wrapper"
         # external memory management
-        self.allocate_ext_mem = "pulp_init_ram"
+        self.allocate_ext_mem = "pulp_alloc_ram"
         self.load_file_to_ext_mem_fn = "pulp_load_file"
         self.load_to_ext_mem_fn = "pulp_memcpy_to_ram"
         self.load_from_ext_mem_fn = "pulp_memcpy_from_ram"
@@ -69,7 +70,7 @@ class PulpOpen(MatchTarget):
         return [
             ("requant", MatchRequantRewriter()),
             ("layout", MatchLayoutNCHWtoNHWCTVM),
-            ("folded", relay.transform.FoldConstant()),
+            ("remove_conv2dpw_with_stride", MatchConv2dPWStrided()),
         ]
     
     def host_memories(self):
